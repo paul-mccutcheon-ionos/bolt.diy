@@ -74,6 +74,11 @@ RUN mkdir -p /root/.config/.wrangler && \
 # Make bindings script executable
 RUN chmod +x /app/bindings.sh
 
+# wrangler is a devDependency, pruned out by "pnpm prune --prod" above, but
+# dockerstart (CMD below) needs its CLI to serve the built Remix/Pages app -
+# install it globally so it survives the prune.
+RUN npm install -g wrangler@4
+
 EXPOSE 5173
 
 # Healthcheck for deployment platforms
